@@ -1,0 +1,15 @@
+.time {
+    text-align: right;
+}
+
+.parkTime {
+    float: right;
+}
+
+.parkHours{
+	min-width: 520px;
+}
+
+.row {
+	border-bottom: thin dotted white;
+}
