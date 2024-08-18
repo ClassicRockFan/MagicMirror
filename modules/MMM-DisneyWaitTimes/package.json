@@ -6,7 +6,7 @@
   "author": "Dennis Glasberg",
   "license": "MIT",
   "dependencies": {
-    "themeparks": "^5.1.37",
-    "babel-polyfill": "latest"
+    "babel-polyfill": "latest",
+    "themeparks": "^5.1.45"
   }
 }
