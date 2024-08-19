@@ -13,5 +13,8 @@ RUN npm i
 WORKDIR /app/vendor
 RUN npm i
 
+WORKDIR /app/fonts
+RUN npm i
+
 WORKDIR /app
 ENTRYPOINT node serveronly
