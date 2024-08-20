@@ -9,18 +9,18 @@ const DisneyWorldAnimalKingdom = new Themeparks.Parks.WaltDisneyWorldAnimalKingd
 const UniversalStudiosFlorida = new Themeparks.Parks.UniversalStudiosFlorida();
 const IslandsOfAdventure = new Themeparks.Parks.UniversalIslandsOfAdventure();
 
-module.exports = NodeHelper.create({	
-	start: function() {
-		console.log("Starting module helper: " + this.name);
-	},
+module.exports = NodeHelper.create({
+    start: function () {
+        console.log("Starting module helper: " + this.name);
+    },
 
-	processWaitTimes: function(park) {
-		var self = this;
+    processWaitTimes: function (park) {
+        var self = this;
         console.log(park.name + ": Processing Wait Times...");
-        		       
+
         const CheckOpeningTimes = (disneyPark) => {
-	    disneyPark.GetOpeningTimes().then((times) => {
-		for(var i=0, time; time=times[i++];) {
+            disneyPark.GetOpeningTimes().then((times) => {
+                for (var i = 0, time; time = times[i++];) {
                     if (time.type == "Operating") {
                         if (new Date() >= new Date(time.openingTime) && new Date() <= new Date(time.closingTime)) {
                             openingTime = new Date(time.openingTime);
@@ -33,12 +33,13 @@ module.exports = NodeHelper.create({
                     }
                 }
 
+                console.log(park.name + ": Processed Open Times...");
                 var payload = {
                     openingTime: openingTime,
                     closingTime: closingTime,
                 };
 
-                self.sendSocketNotification("POPULATE_OPENING_TIMES_" + park.name.replace(/ /g,"_"), payload);
+                self.sendSocketNotification("POPULATE_OPENING_TIMES_" + park.name.replace(/ /g, "_"), payload);
             }).catch((error) => {
                 console.log(park.name + ": Error Processing Opening Times...");
                 console.error(error);
@@ -47,16 +48,16 @@ module.exports = NodeHelper.create({
 
         const CheckWaitTimes = (disneyPark) => {
             disneyPark.GetWaitTimes().then((rides) => {
-                waitTimes = [];			
-                for(var i = 0, ride; ride = rides[i++];) {
+                waitTimes = [];
+                for (var i = 0, ride; ride = rides[i++];) {
                     if (park.logRide) {
                         console.log("\"" + ride.name + "\"");
                         //console.log(park.rides);
-                    	if(park.rides && park.rides.includes(ride.name)){
-				console.log("Gonna add htis bad guy");
-			}
-		    }	
-		    if (park.rides && park.rides.includes(ride.name)) {
+                        if (park.rides && park.rides.includes(ride.name)) {
+                            console.log("Gonna add htis bad guy");
+                        }
+                    }
+                    if (park.rides && park.rides.includes(ride.name)) {
                         waitTimes.push(ride);
                     }
                 }
@@ -65,49 +66,49 @@ module.exports = NodeHelper.create({
                 var payload = {
                     waitTimes: waitTimes
                 };
-                
-                self.sendSocketNotification("POPULATE_WAIT_TIMES_" + park.name.replace(/ /g,"_"), payload);
+
+                self.sendSocketNotification("POPULATE_WAIT_TIMES_" + park.name.replace(/ /g, "_"), payload);
             }).catch((error) => {
                 console.log(park.name + ": Error Processing Wait Times...");
                 console.error(error);
             });
         };
 
-		switch(park.name) {
-			case "Magic Kingdom":
-                		try{
-				CheckOpeningTimes(DisneyWorldMagicKingdom);
-                CheckWaitTimes(DisneyWorldMagicKingdom);
-				}catch(err){
-					console.log(err);
-				}
-				break;
-			case "Epcot":
+        switch (park.name) {
+            case "Magic Kingdom":
+                try {
+                    CheckOpeningTimes(DisneyWorldMagicKingdom);
+                    CheckWaitTimes(DisneyWorldMagicKingdom);
+                } catch (err) {
+                    console.log(err);
+                }
+                break;
+            case "Epcot":
                 CheckOpeningTimes(DisneyWorldEpcot);
                 CheckWaitTimes(DisneyWorldEpcot);
-				break;
-			case "Hollywood Studios":
+                break;
+            case "Hollywood Studios":
                 CheckOpeningTimes(DisneyWorldHollywoodStudios);
                 CheckWaitTimes(DisneyWorldHollywoodStudios);
-				break;
-			case "Animal Kingdom":
+                break;
+            case "Animal Kingdom":
                 CheckOpeningTimes(DisneyWorldAnimalKingdom);
                 CheckWaitTimes(DisneyWorldAnimalKingdom);
-				break;
-			case "Universal Studios":
-				CheckOpeningTimes(UniversalStudiosFlorida);
-				CheckWaitTimes(UniversalStudiosFlorida);
-				break;
-			case "Islands Of Adventure":
-				CheckOpeningTimes(IslandsOfAdventure);
-				CheckWaitTimes(IslandsOfAdventure);
-				break;
-		}
-	},
-	
-	socketNotificationReceived: function(notification, payload) {
-		if (notification === 'GET_WAIT_TIMES') {
-			this.processWaitTimes(payload);
-		}
-	},
+                break;
+            case "Universal Studios":
+                CheckOpeningTimes(UniversalStudiosFlorida);
+                CheckWaitTimes(UniversalStudiosFlorida);
+                break;
+            case "Islands Of Adventure":
+                CheckOpeningTimes(IslandsOfAdventure);
+                CheckWaitTimes(IslandsOfAdventure);
+                break;
+        }
+    },
+
+    socketNotificationReceived: function (notification, payload) {
+        if (notification === 'GET_WAIT_TIMES') {
+            this.processWaitTimes(payload);
+        }
+    },
 });
