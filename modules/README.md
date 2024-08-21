@@ -183,24 +183,6 @@ getStyles: function() {
 ````
 **Note:** If a file can not be loaded, the boot up of the mirror will stall. Therefore, it's advised not to use any external URLs.
 
-#### `getTranslations()`
-**Should return: Dictionary**
-
-The getTranslations method is called to request translation files that need to be loaded. This method should therefore return a dictionary with the files to load, identified by the country's short name.
-
-If the module does not have any module specific translations, the function can just be omitted or return `false`.
-
-**Example:**
-````javascript
-getTranslations: function() {
-	return {
-			en: "translations/en.json",
-			de: "translations/de.json"
-	}
-}
-
-````
-
 #### `getDom()`
 **Should return:** Dom Object
 
@@ -410,93 +392,7 @@ moduleA.lockStrings == []
 moduleA.hidden == false
 ````
 
-**Note:** The locking mechanism can be overwritten by using the force tag:
-````javascript
-moduleA.show(0, {force: true});
-````
-This will reset the lockstring array, and will show the module.
-````javascript
-moduleA.lockStrings == []
-moduleA.hidden == false
-````
-
-Use this `force` method with caution. See `show()` method for more information.
-
-
-
-#### `this.translate(identifier)`
-***identifier* String** - Identifier of the string that should be translated.
-
-The Magic Mirror contains a convenience wrapper for `l18n`. You can use this to automatically serve different translations for your modules based on the user's `language` configuration.
-
-If no translation is found, a fallback will be used. The fallback sequence is as follows:
-- 1. Translation as defined in module translation file of the user's preferred language.
-- 2. Translation as defined in core translation file of the user's preferred language.
-- 3. Translation as defined in module translation file of the fallback language (the first defined module translation file).
-- 4. Translation as defined in core translation file of the fallback language (the first defined core translation file).
-- 5. The key (identifier) of the translation.
-
-When adding translations to your module, it's a good idea to see if an appropriate translation is already available in the [core translation files](https://github.com/MichMich/MagicMirror/tree/master/translations). This way, your module can benefit from the existing translations.
-
-**Example:**
-````javascript
-this.translate("INFO") //Will return a translated string for the identifier INFO
-````
-
-**Example json file:**
-````javascript
-{
-  "INFO": "Really important information!"
-}
-````
-
-**Note:** although comments are officially not supported in JSON files, MagicMirror allows it by stripping the comments before parsing the JSON file. Comments in translation files could help other translators.
-
-##### `this.translate(identifier, variables)`
-***identifier* String** - Identifier of the string that should be translated.
-***variables* Object** - Object of variables to be used in translation.
-
-This improved and backwards compatible way to handle translations behaves like the normal translation function and follows the rules described above. It's recommended to use this new format for translating everywhere. It allows translator to change the word order in the sentence to be translated.
-
-
-**Example:**
-````javascript
-var timeUntilEnd = moment(event.endDate, "x").fromNow(true);
-this.translate("RUNNING", { "timeUntilEnd": timeUntilEnd) }); // Will return a translated string for the identifier RUNNING, replacing `{timeUntilEnd}` with the contents of the variable `timeUntilEnd` in the order that translator intended.
-````
-
-**Example English .json file:**
-````javascript
-{
-	"RUNNING": "Ends in {timeUntilEnd}",
-}
-````
-
-**Example Finnish .json file:**
-````javascript
-{
-	"RUNNING": "Päättyy {timeUntilEnd} päästä",
-}
-````
-
-**Note:** The *variables* Object has an special case called `fallback`. It's used to support old translations in translation files that do not have the variables in them. If you are upgrading an old module that had translations that did not support the word order, it is recommended to have the fallback layout.
-
-**Example:**
-````javascript
-var timeUntilEnd = moment(event.endDate, "x").fromNow(true);
-this.translate("RUNNING", {
-	"fallback": this.translate("RUNNING") + " {timeUntilEnd}"
-	"timeUntilEnd": timeUntilEnd
-)}); // Will return a translated string for the identifier RUNNING, replacing `{timeUntilEnd}` with the contents of the variable `timeUntilEnd` in the order that translator intended. (has a fallback)
-````
-
-**Example Swedish .json file that does not have the variable in it:**
-````javascript
-{
-	"RUNNING": "Slutar",
-}
-````
-In this case the `translate`-function will not find any variables in the translation, will look for `fallback` variable and use that if possible to create the translation.
+**Note:** T
 
 ## The Node Helper: node_helper.js
 

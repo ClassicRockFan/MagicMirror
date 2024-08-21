@@ -1,5 +1,4 @@
 /* global  Log, Loader, Module, config, defaults */
-/* jshint -W020, esversion: 6 */
 
 /* Magic Mirror
  * Main System
@@ -454,7 +453,6 @@ var MM = (function() {
 		init: function() {
 			Log.info("Initializing MagicMirror.");
 			loadConfig();
-			Translator.loadCoreTranslations(config.language);
 			Loader.loadModules();
 		},
 

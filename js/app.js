@@ -68,7 +68,6 @@ var App = function() {
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			var c = require(configFilename);
-			checkDeprecatedOptions(c);
 			var config = Object.assign(defaults, c);
 			callback(config);
 		} catch (e) {
@@ -80,26 +79,6 @@ var App = function() {
 				console.error(Utils.colors.error("WARNING! Could not load config file. Starting with default configuration. Error found: " + e));
 			}
 			callback(defaults);
-		}
-	};
-
-	var checkDeprecatedOptions = function(userConfig) {
-		var deprecated = require(global.root_path + "/js/deprecated.js");
-		var deprecatedOptions = deprecated.configs;
-
-		var usedDeprecated = [];
-
-		deprecatedOptions.forEach(function(option) {
-			if (userConfig.hasOwnProperty(option)) {
-				usedDeprecated.push(option);
-			}
-		});
-		if (usedDeprecated.length > 0) {
-			console.warn(Utils.colors.warn(
-				"WARNING! Your config is using deprecated options: " +
-				usedDeprecated.join(", ") +
-				". Check README and CHANGELOG for more up-to-date ways of getting the same functionality.")
-			);
 		}
 	};
 

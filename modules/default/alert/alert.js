@@ -26,14 +26,6 @@ Module.register("alert",{
 	getStyles: function() {
 		return ["ns-default.css", "font-awesome.css"];
 	},
-	// Define required translations.
-	getTranslations: function() {
-		return {
-			en: "translations/en.json",
-			de: "translations/de.json",
-			nl: "translations/nl.json",
-		};
-	},
 	show_notification: function(message) {
 		if (this.config.effect === "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
 		msg = "";
@@ -144,10 +136,10 @@ Module.register("alert",{
 		this.setPosition(this.config.position);
 		if (this.config.welcome_message) {
 			if (this.config.welcome_message === true){
-				this.show_notification({title: this.translate("sysTitle"), message: this.translate("welcome")});
+				this.show_notification({title: "MagicMirror Notification", message: "Welcome, start was successful!"});
 			}
 			else{
-				this.show_notification({title: this.translate("sysTitle"), message: this.config.welcome_message});
+				this.show_notification({title: "MagicMirror Notification", message: this.config.welcome_message});
 			}
 		}
 		Log.info("Starting module: " + this.name);

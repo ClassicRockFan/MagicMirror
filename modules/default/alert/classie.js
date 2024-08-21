@@ -8,7 +8,6 @@
  * classie.toggle( elem, 'my-class' )
  */
 // jscs:disable
-/*jshint browser: true, strict: true, undef: true */
 /*global define: false */
 
 (function(window) {

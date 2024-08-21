@@ -84,14 +84,6 @@ Module.register("currentweather",{
 		return ["weather-icons.css", "currentweather.css"];
 	},
 
-	// Define required translations.
-	getTranslations: function() {
-		// The translations for the default modules are defined in the core translation files.
-		// Therefor we can just return false. Otherwise we should have returned a dictionary.
-		// If you're trying to build your own module including translations, check out the documentation.
-		return false;
-	},
-
 	// Define start sequence.
 	start: function() {
 		Log.info("Starting module: " + this.name);
@@ -136,7 +128,7 @@ Module.register("currentweather",{
 					windDirection.innerHTML = " &nbsp;<i class=\"fa fa-long-arrow-down\" style=\"transform:rotate("+this.windDeg+"deg);\"></i>&nbsp;";
 				}
 			} else {
-				windDirection.innerHTML = " " + this.translate(this.windDirection);
+				windDirection.innerHTML = " " + this.windDirection;
 			}
 			small.appendChild(windDirection);
 		}
@@ -182,7 +174,7 @@ Module.register("currentweather",{
 		}
 
 		if (!this.loaded) {
-			wrapper.innerHTML = this.translate("LOADING");
+			wrapper.innerHTML = "Loading &hellip;";
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
@@ -255,7 +247,7 @@ Module.register("currentweather",{
 
 			var feelsLike = document.createElement("span");
 			feelsLike.className = "dimmed";
-			feelsLike.innerHTML = this.translate("FEELS") + " " + this.feelsLike + degreeLabel;
+			feelsLike.innerHTML = "Feels like " + this.feelsLike + degreeLabel;
 			small.appendChild(feelsLike);
 
 			wrapper.appendChild(small);

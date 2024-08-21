@@ -32,7 +32,7 @@ Module.register("weatherforecast",{
 
 		apiVersion: "2.5",
 		apiBase: "https://api.openweathermap.org/data/",
-		forecastEndpoint: "forecast/daily",
+		forecastEndpoint: "forecast",
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
@@ -78,14 +78,6 @@ Module.register("weatherforecast",{
 		return ["weather-icons.css", "weatherforecast.css"];
 	},
 
-	// Define required translations.
-	getTranslations: function() {
-		// The translations for the default modules are defined in the core translation files.
-		// Therefor we can just return false. Otherwise we should have returned a dictionary.
-		// If you're trying to build your own module including translations, check out the documentation.
-		return false;
-	},
-
 	// Define start sequence.
 	start: function() {
 		Log.info("Starting module: " + this.name);
@@ -112,7 +104,7 @@ Module.register("weatherforecast",{
 		}
 
 		if (!this.loaded) {
-			wrapper.innerHTML = this.translate("LOADING");
+			wrapper.innerHTML = "Loading &hellip;";
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}

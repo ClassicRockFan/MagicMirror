@@ -35,10 +35,10 @@ var Loader = (function() {
 				// This is done after all the modules so we can
 				// overwrite all the defined styles.
 
-				loadFile(config.customCss, function() {
+				//loadFile(config.customCss, function() {
 					// custom.css loaded. Start all modules.
 					startModules();
-				});
+				//});
 
 			}
 		};
@@ -155,11 +155,8 @@ var Loader = (function() {
 			Log.log("Scripts loaded for: " + module.name);
 			mObj.loadStyles(function() {
 				Log.log("Styles loaded for: " + module.name);
-				mObj.loadTranslations(function() {
-					Log.log("Translations loaded for: " + module.name);
 					moduleObjects.push(mObj);
 					callback();
-				});
 			});
 		});
 	};

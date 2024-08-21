@@ -42,7 +42,7 @@ var Server = function(config, callback) {
 	app.use(helmet());
 
 	app.use("/js", express.static(__dirname));
-	var directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs"];
+	var directories = ["/config", "/css", "/fonts", "/modules", "/vendor"];
 	var directory;
 	for (var i in directories) {
 		directory = directories[i];

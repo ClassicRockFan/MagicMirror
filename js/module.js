@@ -64,14 +64,6 @@ var Module = Class.extend({
 		return [];
 	},
 
-	/* getTranslations()
-	 * Returns a map of translation files the module requires to be loaded.
-	 *
-	 * return Map<String, String> - A map with langKeys and filenames.
-	 */
-	getTranslations: function () {
-		return false;
-	},
 
 	/* getDom()
 	 * This method generates the dom which needs to be displayed. This method is called by the Magic Mirror core.
@@ -173,9 +165,6 @@ var Module = Class.extend({
 		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader(this.file(""), {async: true}), {
 			trimBlocks: true,
 			lstripBlocks: true
-		});
-		this._nunjucksEnvironment.addFilter("translate", function(str) {
-			return self.translate(str);
 		});
 
 		return this._nunjucksEnvironment;
@@ -301,52 +290,6 @@ var Module = Class.extend({
 		};
 
 		loadNextDependency();
-	},
-
-	/* loadScripts()
-	 * Load all required scripts by requesting the MM object to load the files.
-	 *
-	 * argument callback function - Function called when done.
-	 */
-	loadTranslations: function (callback) {
-		var self = this;
-		var translations = this.getTranslations();
-		var lang = config.language.toLowerCase();
-
-		// The variable `first` will contain the first
-		// defined translation after the following line.
-		for (var first in translations) { break; }
-
-		if (translations) {
-			var translationFile = translations[lang] || undefined;
-			var translationsFallbackFile = translations[first];
-
-			// If a translation file is set, load it and then also load the fallback translation file.
-			// Otherwise only load the fallback translation file.
-			if (translationFile !== undefined && translationFile !== translationsFallbackFile) {
-				Translator.load(self, translationFile, false, function () {
-					Translator.load(self, translationsFallbackFile, true, callback);
-				});
-			} else {
-				Translator.load(self, translationsFallbackFile, true, callback);
-			}
-		} else {
-			callback();
-		}
-	},
-
-	/* translate(key, defaultValueOrVariables, defaultValue)
-	 * Request the translation for a given key with optional variables and default value.
-	 *
-	 * argument key string - The key of the string to translate
-     * argument defaultValueOrVariables string/object - The default value or variables for translating. (Optional)
-     * argument defaultValue string - The default value with variables. (Optional)
-	 */
-	translate: function (key, defaultValueOrVariables, defaultValue) {
-		if(typeof defaultValueOrVariables === "object") {
-			return Translator.translate(this, key, defaultValueOrVariables) || defaultValue || "";
-		}
-		return Translator.translate(this, key) || defaultValueOrVariables || "";
 	},
 
 	/* updateDom(speed)

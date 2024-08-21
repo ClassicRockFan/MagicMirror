@@ -1,4 +1,3 @@
-require("babel-polyfill");
 const NodeHelper = require("node_helper");
 const Themeparks = require("themeparks");
 
