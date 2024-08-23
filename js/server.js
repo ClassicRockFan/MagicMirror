@@ -12,7 +12,6 @@ var io = require("socket.io")(server);
 var path = require("path");
 var fs = require("fs");
 var helmet = require("helmet");
-var Utils = require(__dirname + "/utils.js");
 
 var Server = function(config, callback) {
 
@@ -24,8 +23,27 @@ var Server = function(config, callback) {
 	console.log("Starting server on port " + port + " ... ");
 
 	server.listen(port, config.address ? config.address : "localhost");
-
-	app.use(helmet());
+	securitySetup = function(app) {
+		var connectSources, helmet, scriptSources, styleSources;
+		helmet = require("helmet");
+		app.use(helmet());
+		app.use(helmet.hidePoweredBy());
+		app.use(helmet.noSniff());
+		app.use(helmet.crossdomain());
+		scriptSources = ["'self'", "'unsafe-inline'", "'unsafe-eval'", "ajax.googleapis.com"];
+		styleSources = ["'self'", "'unsafe-inline'", "ajax.googleapis.com"];
+		connectSources = ["'self'", "wss:"];
+		return app.use(helmet.contentSecurityPolicy({
+		  defaultSrc: ["'self'"],
+		  scriptSrc: scriptSources,
+		  styleSrc: styleSources,
+		  connectSrc: connectSources,
+		  reportUri: '/report-violation',
+		  reportOnly: false,
+		  setAllHeaders: false,
+		  safari5: false
+		}));
+	  };
 
 	app.use("/js", express.static(__dirname));
 	var directories = ["/config", "/css", "/fonts", "/modules", "/vendor"];

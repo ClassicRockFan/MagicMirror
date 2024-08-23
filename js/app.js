@@ -7,7 +7,6 @@
 
 var fs = require("fs");
 var Server = require(__dirname + "/server.js");
-var Utils = require(__dirname + "/utils.js");
 var defaultModules = require(__dirname + "/../modules/default/defaultmodules.js");
 var path = require("path");
 
@@ -72,11 +71,11 @@ var App = function() {
 			callback(config);
 		} catch (e) {
 			if (e.code === "ENOENT") {
-				console.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
+				console.error("WARNING! Could not find config file. Please create one. Starting with default configuration.");
 			} else if (e instanceof ReferenceError || e instanceof SyntaxError) {
-				console.error(Utils.colors.error("WARNING! Could not validate config file. Starting with default configuration. Please correct syntax errors at or above this line: " + e.stack));
+				console.error("WARNING! Could not validate config file. Starting with default configuration. Please correct syntax errors at or above this line: " + e.stack);
 			} else {
-				console.error(Utils.colors.error("WARNING! Could not load config file. Starting with default configuration. Error found: " + e));
+				console.error("WARNING! Could not load config file. Starting with default configuration. Error found: " + e);
 			}
 			callback(defaults);
 		}
