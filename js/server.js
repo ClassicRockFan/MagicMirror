@@ -10,7 +10,6 @@ var app = require("express")();
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 var path = require("path");
-var ipfilter = require("express-ipfilter").IpFilter;
 var fs = require("fs");
 var helmet = require("helmet");
 var Utils = require(__dirname + "/utils.js");
@@ -26,19 +25,6 @@ var Server = function(config, callback) {
 
 	server.listen(port, config.address ? config.address : "localhost");
 
-	if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
-		console.info(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"));
-	}
-
-	app.use(function(req, res, next) {
-		var result = ipfilter(config.ipWhitelist, {mode: config.ipWhitelist.length === 0 ? "deny" : "allow", log: false})(req, res, function(err) {
-			if (err === undefined) {
-				return next();
-			}
-			console.log(err.message);
-			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
-		});
-	});
 	app.use(helmet());
 
 	app.use("/js", express.static(__dirname));
