@@ -76,7 +76,7 @@ Module.register("currentweather",{
 
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js"];
+		return ["day.js"];
 	},
 
 	// Define required scripts.
@@ -89,7 +89,7 @@ Module.register("currentweather",{
 		Log.info("Starting module: " + this.name);
 
 		// Set locale.
-		moment.locale(config.language);
+		dayjs.locale(config.language);
 
 		this.windSpeed = null;
 		this.windDirection = null;
@@ -454,24 +454,24 @@ Module.register("currentweather",{
 		var sunrise = new Date(data.sys.sunrise * 1000);
 		var sunset = new Date(data.sys.sunset * 1000);
 
-		// The moment().format('h') method has a bug on the Raspberry Pi.
+		// The dayjs().format('h') method has a bug on the Raspberry Pi.
 		// So we need to generate the timestring manually.
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
 		var sunriseSunsetDateObject = (sunrise < now && sunset > now) ? sunset : sunrise;
-		var timeString = moment(sunriseSunsetDateObject).format("HH:mm");
+		var timeString = dayjs(sunriseSunsetDateObject).format("HH:mm");
 		if (this.config.timeFormat !== 24) {
 			//var hours = sunriseSunsetDateObject.getHours() % 12 || 12;
 			if (this.config.showPeriod) {
 				if (this.config.showPeriodUpper) {
-					//timeString = hours + moment(sunriseSunsetDateObject).format(':mm A');
-					timeString = moment(sunriseSunsetDateObject).format("h:mm A");
+					//timeString = hours + dayjs(sunriseSunsetDateObject).format(':mm A');
+					timeString = dayjs(sunriseSunsetDateObject).format("h:mm A");
 				} else {
-					//timeString = hours + moment(sunriseSunsetDateObject).format(':mm a');
-					timeString = moment(sunriseSunsetDateObject).format("h:mm a");
+					//timeString = hours + dayjs(sunriseSunsetDateObject).format(':mm a');
+					timeString = dayjs(sunriseSunsetDateObject).format("h:mm a");
 				}
 			} else {
-				//timeString = hours + moment(sunriseSunsetDateObject).format(':mm');
-				timeString = moment(sunriseSunsetDateObject).format("h:mm");
+				//timeString = hours + dayjs(sunriseSunsetDateObject).format(':mm');
+				timeString = dayjs(sunriseSunsetDateObject).format("h:mm");
 			}
 		}
 

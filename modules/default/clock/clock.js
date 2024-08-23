@@ -17,7 +17,7 @@ Module.register("clock",{
 		clockBold: false,
 		showDate: true,
 		showWeek: false,
-		dateFormat: "dddd, LL",
+		dateFormat: "dddd, MMMM D, YYYY",
 
 		/* specific to the analog clock */
 		analogSize: "200px",
@@ -29,7 +29,7 @@ Module.register("clock",{
 	},
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js", "moment-timezone.js"];
+		return ["day.js"];
 	},
 	// Define styles.
 	getStyles: function() {
@@ -41,15 +41,15 @@ Module.register("clock",{
 
 		// Schedule update interval.
 		var self = this;
-		self.second = moment().second();
-		self.minute = moment().minute();
+		self.second = dayjs().second();
+		self.minute = dayjs().minute();
 
 		//Calculate how many ms should pass until next update depending on if seconds is displayed or not
 		var delayCalculator = function(reducedSeconds) {
 			if (self.config.displaySeconds) {
-				return 1000 - moment().milliseconds();
+				return 1000 - dayjs().millisecond();
 			} else {
-				return ((60 - reducedSeconds) * 1000) - moment().milliseconds();
+				return ((60 - reducedSeconds) * 1000) - dayjs().millisecond();
 			}
 		};
 
@@ -77,7 +77,7 @@ Module.register("clock",{
 		setTimeout(notificationTimer, delayCalculator(self.second));
 
 		// Set locale.
-		moment.locale(config.language);
+		dayjs.locale(config.language);
 
 	},
 	// Override dom generator.
@@ -101,11 +101,11 @@ Module.register("clock",{
 		weekWrapper.className = "week dimmed medium";
 
 		// Set content of wrappers.
-		// The moment().format("h") method has a bug on the Raspberry Pi.
+		// The dayjs().format("h") method has a bug on the Raspberry Pi.
 		// So we need to generate the timestring manually.
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
 		var timeString;
-		var now = moment();
+		var now = dayjs();
 		this.lastDisplayedMinute = now.minute();
 		if (this.config.timezone) {
 			now.tz(this.config.timezone);
@@ -150,7 +150,7 @@ Module.register("clock",{
 			// If it isn't 'digital', then an 'analog' clock was also requested
 
 			// Calculate the degree offset for each hand of the clock
-			var now = moment();
+			var now = dayjs();
 			if (this.config.timezone) {
 				now.tz(this.config.timezone);
 			}

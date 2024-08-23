@@ -22,7 +22,7 @@ Module.register("MMM-AviationWeather",{
 
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js"];
+		return [];
 	},
 
 	// Define required scripts.

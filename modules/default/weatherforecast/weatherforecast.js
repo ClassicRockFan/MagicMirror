@@ -70,7 +70,7 @@ Module.register("weatherforecast",{
 
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js"];
+		return ["day.js"];
 	},
 
 	// Define required scripts.
@@ -83,7 +83,7 @@ Module.register("weatherforecast",{
 		Log.info("Starting module: " + this.name);
 
 		// Set locale.
-		moment.locale(config.language);
+		dayjs.locale(config.language);
 
 		this.forecast = [];
 		this.loaded = false;
@@ -332,11 +332,11 @@ Module.register("weatherforecast",{
 			var day;
 			var hour;
 			if(!!forecast.dt_txt) {
-				day = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
-				hour = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("H");
+				day = dayjs(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
+				hour = dayjs(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("H");
 			} else {
-				day = moment(forecast.dt, "X").format("ddd");
-				hour = moment(forecast.dt, "X").format("H");
+				day = dayjs(forecast.dt, "X").format("ddd");
+				hour = dayjs(forecast.dt, "X").format("H");
 			}
 
 			if (day !== lastDay) {
@@ -442,9 +442,9 @@ Module.register("weatherforecast",{
 		}
 
 		//Find all forecasts that is for the same day
-		var checkDateTime = (!!forecast.dt_txt) ? moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(forecast.dt, "X");
+		var checkDateTime = (!!forecast.dt_txt) ? dayjs(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : dayjs(forecast.dt, "X");
 		var daysForecasts = allForecasts.filter(function(item) {
-			var itemDateTime = (!!item.dt_txt) ? moment(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(item.dt, "X");
+			var itemDateTime = (!!item.dt_txt) ? dayjs(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : dayjs(item.dt, "X");
 			return itemDateTime.isSame(checkDateTime, "day") && item.rain instanceof Object;
 		});
 

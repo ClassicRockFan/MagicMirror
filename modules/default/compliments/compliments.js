@@ -52,7 +52,7 @@ Module.register("compliments", {
 
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js"];
+		return ["day.js"];
 	},
 
 	// Define start sequence.
@@ -108,7 +108,7 @@ Module.register("compliments", {
 	 * return compliments Array<String> - Array with compliments for the time of the day.
 	 */
 	complimentArray: function() {
-		var hour = moment().hour();
+		var hour = dayjs().hour();
 		var compliments;
 
 		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime && this.config.compliments.hasOwnProperty("morning")) {

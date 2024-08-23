@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.3.1",
-    "moment": "^2.17.1",
-    "moment-timezone": "^0.5.11",
+    "dayjs": "latest",
     "nunjucks": "^3.0.1",
     "weathericons": "^2.1.0"
   }

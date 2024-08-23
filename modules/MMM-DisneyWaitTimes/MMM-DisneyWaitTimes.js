@@ -7,7 +7,7 @@ Module.register("MMM-DisneyWaitTimes", {
 	},
 
 	getScripts: function () {
-		return ["moment.js"];
+		return [];
 	},
 
 	getStyles: function () {
