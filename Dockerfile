@@ -7,8 +7,5 @@ COPY . /app
 
 RUN npm i
 
-WORKDIR /app/modules/MMM-DisneyWaitTimes
-RUN npm i
-
 WORKDIR /app
 ENTRYPOINT node serveronly
