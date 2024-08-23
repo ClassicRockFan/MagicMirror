@@ -1,5 +1,5 @@
 #### COMPILE MIRROR IMAGE ####
-FROM node:16-buster as build
+FROM node:18-buster as build
 
 WORKDIR /app
 
