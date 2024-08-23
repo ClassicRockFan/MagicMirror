@@ -1,5 +1,5 @@
 #### COMPILE MIRROR IMAGE ####
-FROM node:18-buster as build
+FROM node:22-alpine as build
 
 WORKDIR /app
 
