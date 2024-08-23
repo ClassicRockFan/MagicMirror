@@ -174,7 +174,6 @@ The getStyles method is called to request any additional stylesheets that need t
 getStyles: function() {
 	return [
 		'script.css', // will try to load it from the vendor folder, otherwise it will load is from the module folder.
-		'font-awesome.css', // this file is available in the vendor folder, so it doesn't need to be available in the module folder.
 		this.file('anotherfile.css'), // this file will be loaded straight from the module folder.
 		'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',  // this file will be loaded from the bootstrapcdn servers.
 	]
